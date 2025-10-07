@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaPhone, FaMapMarkerAlt, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
-import { supabase } from '../lib/supabase';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -17,27 +16,13 @@ export default function Contact() {
     e.preventDefault();
     setStatus('loading');
 
-    try {
-      const { error } = await supabase.from('enquiries').insert([
-        {
-          name: formData.name,
-          email: formData.email,
-          mobile: formData.mobile,
-          subject: formData.subject,
-          message: formData.message,
-        },
-      ]);
-
-      if (error) throw error;
-
+    // Simulate form submission
+    setTimeout(() => {
+      console.log('Form submitted:', formData);
       setStatus('success');
       setFormData({ name: '', email: '', mobile: '', subject: '', message: '' });
       setTimeout(() => setStatus('idle'), 3000);
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setStatus('error');
-      setTimeout(() => setStatus('idle'), 3000);
-    }
+    }, 1000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -163,6 +148,7 @@ export default function Contact() {
                 </p>
               </div>
             </div>
+            
             <a
               href="https://api.whatsapp.com/send?phone=919849499195&text=Welcome to Abhi Nanda Ghee Enquiry chat"
               className="whatsapp-btn"
